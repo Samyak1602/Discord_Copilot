@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
+import SignOutButton from "@/components/sign-out-button";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Dashboard() {
+    const supabase = createClient();
     const [instructions, setInstructions] = useState("");
     const [logs, setLogs] = useState<any[]>([]);
     const [allowedChannels, setAllowedChannels] = useState<string[]>([]);
@@ -40,9 +42,6 @@ export default function Dashboard() {
             setInstructions(data.system_instructions);
             setAllowedChannels(data.allowed_channels || []);
             setConfigId(data.id);
-        } else if (!data) {
-            // Init config if empty (should be done by SQL but maybe via API if allowed)
-            // For now assume user manually created or we insert if missing?
         }
     }
 
@@ -84,8 +83,13 @@ export default function Dashboard() {
     return (
         <div className="container mx-auto p-6 space-y-8">
             <div className="flex flex-col space-y-2">
-                <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Discord Copilot</h1>
-                <p className="text-muted-foreground">Manage your bot's brain and view its memories.</p>
+                <div className="flex justify-between items-center">
+                    <div className="space-y-1">
+                        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Discord Copilot</h1>
+                        <p className="text-muted-foreground">Manage your bot's brain and view its memories.</p>
+                    </div>
+                    <SignOutButton />
+                </div>
             </div>
 
             <Tabs defaultValue="brain" className="space-y-4">
