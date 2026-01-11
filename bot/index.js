@@ -2,6 +2,17 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, Partials, Events } = require('discord.js');
 const { createClient } = require('@supabase/supabase-js');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const http = require('http');
+
+// Render / Heroku requirement: Bind to a port to stay alive
+const port = process.env.PORT || 3000;
+http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.write('Discord Copilot Bot is running!');
+    res.end();
+}).listen(port, () => {
+    console.log(`Health check server listening on port ${port}`);
+});
 
 // Initialize Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
