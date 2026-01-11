@@ -35,42 +35,42 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex h-screen w-full items-center justify-center bg-gray-950 px-4">
-            <Card className="w-full max-w-sm bg-gray-900 text-white border-gray-800">
+        <div className="flex h-screen w-full items-center justify-center bg-gray-50 px-4">
+            <Card className="w-full max-w-sm bg-white text-gray-900 border-gray-200 shadow-sm">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold text-center">Discord Copilot</CardTitle>
-                    <CardDescription className="text-center text-gray-400">
+                    <CardDescription className="text-center text-gray-500">
                         Sign in to manage your bot
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div className="space-y-2">
-                            <label htmlFor="email" className="text-sm font-medium text-gray-300">Email</label>
+                            <label htmlFor="email" className="text-sm font-medium text-gray-700">Email</label>
                             <Input
                                 id="email"
                                 type="email"
                                 placeholder="admin@example.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus-visible:ring-indigo-500"
+                                className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-400 focus-visible:ring-indigo-500"
                                 required
                             />
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="password" className="text-sm font-medium text-gray-300">Password</label>
+                            <label htmlFor="password" className="text-sm font-medium text-gray-700">Password</label>
                             <Input
                                 id="password"
                                 type="password"
                                 placeholder="••••••••"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus-visible:ring-indigo-500"
+                                className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-400 focus-visible:ring-indigo-500"
                                 required
                             />
                         </div>
                         {error && (
-                            <div className="p-3 rounded bg-red-900/50 border border-red-900 text-red-200 text-sm">
+                            <div className="p-3 rounded bg-red-50 border border-red-200 text-red-900 text-sm">
                                 {error}
                             </div>
                         )}
@@ -83,7 +83,7 @@ export default function LoginPage() {
                         </Button>
                     </form>
                 </CardContent>
-                <CardFooter className="flex justify-center border-t border-gray-800 pt-4">
+                <CardFooter className="flex justify-center border-t border-gray-100 pt-4">
                     <p className="text-xs text-gray-500">
                         Secure Access • Admins Only
                     </p>
