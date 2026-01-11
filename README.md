@@ -2,6 +2,10 @@
 
 A "Vibe Coded" system to control the personality and rules of a Discord Bot using a modern Web Dashboard.
 
+## 🟢 Live Demo
+- **Web Dashboard**: [discord-copilot-thax.vercel.app](https://discord-copilot-thax.vercel.app/)
+- **Bot Backend**: [discord-copilot-bcwd.onrender.com](https://discord-copilot-bcwd.onrender.com/) (Health Check)
+
 ## 🌟 Features
 - **🧠 Brain**: Define your bot's persona (System Instructions) in real-time.
 - **🛡️ Security**: Allow-list specific Discord channels; the bot ignores everything else.
