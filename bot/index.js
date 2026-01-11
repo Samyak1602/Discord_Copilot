@@ -29,10 +29,12 @@ let allowedChannels = new Set();
 
 async function fetchConfig() {
     console.log('Fetching bot config...');
-    // Use maybeSingle() to avoid crash if no rows exist
+    // We order by ID desc to get the latest config if multiple exist
     const { data, error } = await supabase
         .from('bot_config')
         .select('system_instructions, allowed_channels')
+        .order('id', { ascending: false })
+        .limit(1)
         .maybeSingle();
 
     if (error) {
@@ -66,13 +68,21 @@ client.on('messageCreate', async (message) => {
     }
 
     try {
-        // 1. Fetch Context (Last 5 messages)
-        const messages = await message.channel.messages.fetch({ limit: 6 }); // +1 for current
-        // Simple history formatting for Gemini
-        const history = messages.reverse().map(m => {
-            const role = m.author.id === client.user.id ? 'Model' : 'User';
-            // Simplify content to avoid excessive tokens or format issues
-            return `${role}: ${m.content}`;
+        // 1. Fetch Context from Supabase (Persistent Memory)
+        // This ensures that "Clear Memory" button in dashboard actually wipes the context.
+        const { data: pastExchanges, error: fetchError } = await supabase
+            .from('chat_logs')
+            .select('user_handle, message_content, bot_response')
+            .order('timestamp', { ascending: false })
+            .limit(5);
+
+        if (fetchError) {
+            console.error('Error fetching context:', fetchError);
+        }
+
+        const history = (pastExchanges || []).reverse().map(row => {
+            // Simplify format for the model
+            return `User: ${row.message_content}\nModel: ${row.bot_response}`;
         }).join('\n');
 
         // 2. Generate Response
@@ -82,6 +92,7 @@ System Instructions: ${systemInstructions}
 
 Current Conversation:
 ${history}
+User: ${message.content}
 
 Model Response:`;
 

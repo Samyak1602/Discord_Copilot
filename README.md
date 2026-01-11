@@ -5,7 +5,9 @@ A "Vibe Coded" system to control the personality and rules of a Discord Bot usin
 ## 🌟 Features
 - **🧠 Brain**: Define your bot's persona (System Instructions) in real-time.
 - **🛡️ Security**: Allow-list specific Discord channels; the bot ignores everything else.
+- **🔒 Secure Auth**: Email/Password authentication restricts Dashboard access to Admins only.
 - **📜 Logs**: Watch chat interactions happen live on the Dashboard (Supabase Realtime).
+- **🧹 Memory Control**: Reset the bot's conversation context with a single click.
 - **🤖 AI**: Powered by Google Gemini (Flash 1.5/2.5) for fast, intelligent responses.
 
 ## 🛠️ Tech Stack
@@ -47,6 +49,7 @@ The Control Center for your bot.
     npm run dev
     ```
     Access at `http://localhost:3000`.
+    **(Note: You will be redirected to Login. Use the Sign Up link or create a user in Supabase Authentication dashboard).**
 
 #### 🤖 Discord Bot
 The agent living in your server.
@@ -90,3 +93,4 @@ The agent living in your server.
 - **Bot Not Replying?** Check if the Channel ID is in the "Allowed Channels" list.
 - **Crash on Start?** Ensure `bot_config` table has at least one row (Save something in the Dashboard first).
 - **Empty Logs?** Ensure Supabase Realtime is enabled for the `chat_logs` table.
+- **Bot Still a Pirate?** Click "Clear Memory" in the Logs tab to wipe the old context (the bot uses persistent database logs).

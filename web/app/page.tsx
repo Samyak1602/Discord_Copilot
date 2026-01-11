@@ -80,6 +80,21 @@ export default function Dashboard() {
         }
     }
 
+    async function clearLogs() {
+        if (!confirm("Are you sure you want to wipe the bot's memory? This cannot be undone.")) return;
+
+        setLoading(true);
+        const { error } = await supabase.from('chat_logs').delete().neq('id', 0); // Delete all rows where id != 0 (all rows)
+
+        if (error) {
+            console.error('Error clearing logs:', error);
+            alert('Failed to clear memory');
+        } else {
+            setLogs([]); // Clear local state
+        }
+        setLoading(false);
+    }
+
     return (
         <div className="container mx-auto p-6 space-y-8">
             <div className="flex flex-col space-y-2">
@@ -124,10 +139,17 @@ export default function Dashboard() {
                 <TabsContent value="logs" className="space-y-4">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Live Chat Logs</CardTitle>
-                            <CardDescription>
-                                Real-time stream of bot interactions.
-                            </CardDescription>
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <CardTitle>Live Chat Logs</CardTitle>
+                                    <CardDescription>
+                                        Real-time stream of bot interactions.
+                                    </CardDescription>
+                                </div>
+                                <Button variant="destructive" size="sm" onClick={clearLogs} disabled={loading || logs.length === 0}>
+                                    Clear Memory
+                                </Button>
+                            </div>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-4">
